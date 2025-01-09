@@ -1,0 +1,1397 @@
+:root {
+    --primary-color: #9333ea;
+    --secondary-color: #ec4899;
+    --background-color: #f3e8ff;
+    --text-color: #4c1d95;
+    --shadow-color: rgba(147, 51, 234, 0.1);
+    --gradient-start: #9333ea;
+    --gradient-end: #ec4899;
+    --accent-color: #f472b6;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    --box-shadow-sm: 0 2px 4px var(--shadow-color);
+    --box-shadow-md: 0 4px 8px var(--shadow-color);
+    --box-shadow-lg: 0 8px 16px var(--shadow-color);
+    --box-shadow-xl: 0 12px 24px var(--shadow-color);
+}
+
+body {
+    font-family: 'Parkinsans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.calendar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(243, 232, 255, 0.95);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(147, 51, 234, 0.1);
+    backdrop-filter: blur(10px);
+    animation: float 6s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.calendar-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(147, 51, 234, 0.15);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.month-year-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: var(--background-color);
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.nav-btn:hover {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white;
+    transform: translateY(-2px);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.calendar-grid:hover {
+    background: rgba(147, 51, 234, 0.03);
+    transform: scale(1.01);
+}
+
+.calendar-day {
+    position: relative;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    
+    /* Add hover effect with gradient */
+    background-position: 0 50%;
+    background-size: 200% 200%;
+}
+
+.calendar-day::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, 
+        var(--gradient-start) 0%, 
+        var(--gradient-end) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.calendar-day:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white;
+    animation: shimmer 1.5s infinite;
+}
+
+.calendar-day:hover::after {
+    opacity: 1;
+}
+
+.day-today {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border: 5px solid white;
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.6);
+    transform: scale(1.15);
+    animation: todayPulse 2s infinite;
+    position: relative;
+}
+
+.day-today::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    z-index: -1;
+    animation: rotate 3s linear infinite;
+}
+
+/* Add rolling background animation */
+@keyframes labelFloat {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+.day-period {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(236, 72, 153, 0.2));
+    border: 2px solid var(--secondary-color);
+    animation: pulse 2s infinite;
+}
+
+.day-ovulation {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    border: 2px solid #9333ea;
+    color: white;
+    animation: ovulationGlow 2s infinite;
+}
+
+.day-prediction {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(147, 51, 234, 0.1));
+    border: 2px dashed var(--secondary-color);
+}
+
+.calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 24px 0;
+    padding: 16px;
+    background: rgba(147, 51, 234, 0.05);
+    border-radius: 16px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.legend-dot.today {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white;
+    border: 3px solid white;
+    box-shadow: 0 0 10px rgba(147, 51, 234, 0.6);
+    animation: todayPulse 2s infinite;
+    position: relative;
+}
+
+.legend-dot.period {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(236, 72, 153, 0.2));
+    border: 2px solid var(--secondary-color);
+}
+
+.legend-dot.ovulation {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    border: 2px solid #9333ea;
+}
+
+.legend-dot.prediction {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(147, 51, 234, 0.1));
+    border: 2px dashed var(--secondary-color);
+}
+
+.primary-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--shadow-color);
+}
+
+.tracking-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 32px;
+    padding: 24px;
+    background: rgba(147, 51, 234, 0.03);
+    border-radius: 16px;
+}
+
+h2 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    border-radius: 2px;
+}
+
+.day-other-month {
+    opacity: 0.5;
+}
+
+.selected {
+    position: relative;
+    background: white;
+    color: var(--primary-color);
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.selected::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, 
+        var(--gradient-start), 
+        var(--gradient-end), 
+        var(--gradient-start));
+    z-index: -1;
+    animation: borderRotate 4s linear infinite;
+}
+
+@keyframes borderRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.calendar-day {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+}
+
+.nav-btn, .primary-btn, .save-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(236, 72, 153, 0.3);
+    animation: ripple-effect 0.6s linear;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+@keyframes ripple-effect {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.quote-box {
+    text-align: center;
+    margin: 20px 0;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(243, 232, 255, 0.95));
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(147, 51, 234, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.quote-box::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 60px;
+    color: rgba(147, 51, 234, 0.1);
+    font-family: Georgia, serif;
+}
+
+.quote-box::after {
+    content: '"';
+    position: absolute;
+    bottom: -20px;
+    right: 20px;
+    font-size: 60px;
+    color: rgba(147, 51, 234, 0.1);
+    font-family: Georgia, serif;
+}
+
+.quote-text {
+    font-size: 1.3em;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.6;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 2px rgba(147, 51, 234, 0.1);
+}
+
+.quote-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(147, 51, 234, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(243, 232, 255, 0.98));
+}
+
+.quote-text.animate__fadeIn {
+    animation-duration: 1s;
+}
+
+.music-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.music-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.music-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+/* Add smooth transitions for weekday headers */
+.weekday {
+    font-weight: 600;
+    color: var(--primary-color);
+    padding: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.weekday:hover {
+    transform: scale(1.1);
+    color: var(--secondary-color);
+}
+
+/* Add new keyframe animations */
+@keyframes shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(147, 51, 234, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(147, 51, 234, 0);
+    }
+}
+
+@keyframes todayPulse {
+    0% {
+        box-shadow: 0 0 20px rgba(147, 51, 234, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(236, 72, 153, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(147, 51, 234, 0.6);
+    }
+}
+
+@keyframes ovulationGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(147, 51, 234, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(147, 51, 234, 0);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.wellness-tips {
+    margin: 32px 0;
+    padding: 24px;
+    background: rgba(147, 51, 234, 0.03);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.wellness-tips:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+.wellness-tips h3 {
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+}
+
+.tips-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 24px;
+    padding: 16px 4px;
+    scroll-behavior: smooth;
+    position: relative;
+    -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;  /* Hide scrollbar for Firefox */
+}
+
+.tips-carousel::-webkit-scrollbar {
+    display: none;  /* Hide scrollbar for Chrome/Safari */
+}
+
+.tip {
+    flex: 0 0 300px;  /* Fixed width for consistent sizing */
+    padding: 24px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.tip:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+/* Add carousel navigation buttons */
+.carousel-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 16px;
+}
+
+.carousel-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.carousel-btn:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.carousel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Add tip expand/collapse functionality */
+.tip-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.tip.expanded .tip-content {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+}
+
+.tip-toggle {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.tip.expanded .tip-toggle {
+    transform: rotate(180deg);
+}
+
+.save-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.save-btn {
+    padding: 14px 32px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.save-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 16px var(--shadow-color);
+}
+
+/* Add smooth carousel transitions */
+.tips-carousel {
+    position: relative;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tip {
+    scroll-snap-align: start;
+    cursor: pointer;
+}
+
+/* Add progress dots for carousel */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--shadow-color);
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: var(--primary-color);
+    transform: scale(1.2);
+}
+
+.period-status {
+    margin: 32px 0;
+    padding: 24px;
+    background: rgba(147, 51, 234, 0.03);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.period-status:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+.period-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.primary-btn {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+/* Add Modal Styles */
+.tip-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    margin: 5vh auto;
+    padding: 32px;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(147, 51, 234, 0.2);
+    animation: modalSlideIn 0.2s ease-out;
+}
+
+.modal-header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid rgba(147, 51, 234, 0.1);
+}
+
+.modal-icon {
+    font-size: 2.5em;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.modal-sections {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 16px;
+}
+
+.modal-sections h3 {
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    text-align: center;
+    font-size: 1.2em;
+    min-height: 50px;
+}
+
+.modal-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 24px;
+    background: rgba(147, 51, 234, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(147, 51, 234, 0.1);
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid rgba(147, 51, 234, 0.1);
+}
+
+.modal-icon {
+    font-size: 3em;
+    margin-bottom: 16px;
+    color: var(--primary-color);
+}
+
+.modal-title {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.modal-description {
+    font-size: 1.1em;
+    color: var(--text-color);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.modal-content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    width: 100%;
+    margin-top: 24px;
+}
+
+.content-item {
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(147, 51, 234, 0.1);
+    transition: all 0.3s ease;
+}
+
+.content-item.hidden {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.content-item.fade-in {
+    animation: fadeInRight 0.5s ease forwards;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.modal-section.hidden,
+.modal-section.slide-in {
+    animation: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .modal-sections {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-sections {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        padding: 20px;
+    }
+    
+    .modal-section {
+        padding: 16px;
+    }
+}
+
+/* Scrollbar Styling */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(147, 51, 234, 0.05);
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* Keep existing animation styles */
+.modal-section.hidden {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.modal-section.slide-in {
+    animation: slideIn 0.3s ease forwards;
+}
+
+/* Update hover effect to maintain grid layout */
+.modal-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(147, 51, 234, 0.2);
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    transform: rotate(90deg);
+    color: var(--secondary-color);
+}
+
+.modal-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 16px;
+}
+
+.modal-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 16px;
+}
+
+.modal-section {
+    padding: 16px;
+    background: rgba(147, 51, 234, 0.05);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.modal-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(147, 51, 234, 0.2);
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-10%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Update existing tip styles */
+.tip {
+    cursor: pointer;
+}
+
+.tip-toggle {
+    font-size: 1.2em;
+}
+
+#typingDescription {
+    min-height: 3em;  /* Adjust as needed to prevent layout shift */
+    font-size: 1.1em;
+    color: var(--text-color);
+    margin-bottom: 16px;
+}
+
+/* Add a blinking cursor effect */
+#typingDescription::after {
+    content: '|';
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Add these new styles */
+.modal-section {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+    background: rgba(147, 51, 234, 0.05);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 5px 15px rgba(147, 51, 234, 0.1);
+}
+
+/* Simplified slide-in animation */
+.modal-section.slide-in {
+    animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Remove hover effects */
+.modal-section:hover,
+.modal-section.slide-in:hover {
+    transform: none;
+}
+
+/* Add stagger effect for list items within sections */
+.modal-section ul li {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: fadeInRight 0.5s ease forwards;
+}
+
+.modal-section.slide-in ul li {
+    animation-delay: calc(0.05s * var(--item-index));
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Add fade in effect for images */
+.modal-section .modal-image {
+    opacity: 0;
+    transform: scale(0.95);
+    animation: fadeInScale 0.5s ease forwards;
+    animation-delay: 0.1s;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Footer Styles */
+.footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    background: rgba(243, 232, 255, 0.95);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-sm);
+}
+
+.footer-content {
+    color: var(--text-color);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.footer-content p {
+    margin: 0;
+    animation: float 3s ease-in-out infinite;
+}
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-box {
+    background: rgba(243, 232, 255, 0.95);
+    border-radius: 24px;
+    padding: 32px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(147, 51, 234, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.auth-box h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: var(--text-color);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Center form elements */
+    gap: 20px;
+    margin: 24px 0;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;  /* Keep full width for form groups */
+}
+
+.form-group label {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;  /* Ensure full width */
+    padding: 12px;
+    border: 2px solid rgba(147, 51, 234, 0.1);
+    border-radius: 12px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;  /* Include padding in width calculation */
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 16px;
+    color: var(--text-color);
+}
+
+.auth-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.alert {
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.alert-success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.typing-content {
+    white-space: pre-wrap;
+    line-height: 1.5;
+    min-height: 200px;
+}
+
+.typing-content ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.typing-content li {
+    margin: 8px 0;
+}
+
+.tarot-section {
+    margin: 32px 0;
+    padding: 24px;
+    background: rgba(147, 51, 234, 0.03);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.tarot-section h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 24px;
+}
+
+.tarot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.tarot-card {
+    width: 300px;
+    height: 500px;
+    perspective: 1000px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.card-inner.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.2);
+    padding: 20px;
+    background: white;
+}
+
+.card-front img, .card-back img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.card-back h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.card-back p {
+    font-size: 1em;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.daily-suggestions li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+    font-size: 0.9em;
+    color: var(--text-color);
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: calc(var(--i) * 0.1s);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tarot-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.card-front {
+    background: linear-gradient(45deg, #2c1810, #4a1f1f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 8px solid #8b5e3c;
+}
+
+.card-design {
+    width: 90%;
+    height: 90%;
+    border: 2px solid #d4af37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: repeating-linear-gradient(
+        45deg,
+        #2c1810,
+        #2c1810 10px,
+        #3a2218 10px,
+        #3a2218 20px
+    );
+}
+
+.card-symbol {
+    font-size: 3em;
+    color: #d4af37;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.card-value {
+    text-align: center;
+    font-size: 1.2em;
+    color: #8b5e3c;
+    margin: 10px 0;
+    font-style: italic;
+}
+
+.card-back {
+    background: linear-gradient(135deg, #fff5e6, #fff);
+    border: 8px solid #8b5e3c;
+}
+
+.tarot-content {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.2);
+}
+
+.tarot-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.tarot-symbol {
+    font-size: 2em;
+}
+
+.tarot-title {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.tarot-value {
+    color: #8b5e3c;
+    font-style: italic;
+    margin-bottom: 16px;
+}
+
+.tarot-meaning {
+    font-size: 1em;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 24px;
+}
+
+.daily-suggestions li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+    font-size: 0.9em;
+    color: var(--text-color);
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: calc(var(--i) * 0.1s);
+}

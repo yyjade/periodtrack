@@ -1,0 +1,104 @@
+{
+    "periods": [
+      {
+        "cycle_start_date": "2023-01-05",
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2023-02-03", 
+        "period_length": 4
+      },
+      {
+        "cycle_start_date": "2023-03-02",
+        "period_length": 6
+      },
+      {
+        "cycle_start_date": "2023-03-31", 
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2023-04-27",
+        "period_length": 4
+      },
+      {
+        "cycle_start_date": "2023-05-25",
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2023-06-22",
+        "period_length": 4
+      },
+      {
+        "cycle_start_date": "2023-07-20",
+        "period_length": 6
+      },
+      {
+        "cycle_start_date": "2023-08-17",
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2023-09-14",
+        "period_length": 4
+      },
+      {
+        "cycle_start_date": "2023-10-12",
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2023-11-09",
+        "period_length": 4
+      },
+      {
+        "cycle_start_date": "2023-12-07",
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2024-01-04",
+        "period_length": 6
+      },
+      {
+        "cycle_start_date": "2024-02-01",
+        "period_length": 4
+      },
+      {
+        "cycle_start_date": "2024-02-29",
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2024-03-28",
+        "period_length": 4
+      },
+      {
+        "cycle_start_date": "2024-04-25",
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2024-05-23",
+        "period_length": 6
+      },
+      {
+        "cycle_start_date": "2024-06-20",
+        "period_length": 4
+      },
+      {
+        "cycle_start_date": "2024-07-18",
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2024-08-15",
+        "period_length": 4
+      },
+      {
+        "cycle_start_date": "2024-09-12",
+        "period_length": 5
+      },
+      {
+        "cycle_start_date": "2024-10-10",
+        "period_length": 6
+      },
+      {
+        "cycle_start_date": "2024-11-07",
+        "period_length": 4
+      }
+    ]
+}

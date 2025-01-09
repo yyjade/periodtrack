@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Period Calendar</title>
+    <link rel="stylesheet" href="{% static 'calendar_app/css/styles.css' %}">
+    <!-- Include Toastify CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- Add confetti animation library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <!-- Add animate.css for smooth animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Add hover.css for interactive hover effects -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
+    <!-- Add tippy.js for tooltips -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css"/>
+    <!-- Add loading animation -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-animations-react@1.3.3/dist/index.min.css">
+    <!-- Add preconnect for faster resource loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Add Tippy.js theme -->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css"/>
+    {% csrf_token %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body class="animate__animated animate__fadeIn">
+    <div id="app">
+        <div class="calendar-container">
+            <!-- Header with month/year and navigation -->
+            <div class="calendar-header">
+                <h2 id="monthYearDisplay" class="month-year-text"></h2>
+                <div class="nav-buttons">
+                    <button id="prevMonth" class="nav-btn">←</button>
+                    <button id="today" class="nav-btn">Today</button>
+                    <button id="nextMonth" class="nav-btn">→</button>
+                    <a href="{% url 'calendar_app:logout' %}" class="nav-btn">Logout</a>
+                </div>
+            </div>
+
+            <!-- Motivational Quote -->
+            <div class="quote-box">
+                <p id="dailyQuote" class="quote-text"></p>
+            </div>
+            <!-- Legend -->
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <div class="legend-dot today"></div>
+                    <span>Today</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot period"></div>
+                    <span>Period Days</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot ovulation"></div>
+                    <span>Ovulation</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot prediction"></div>
+                    <span>Next Period</span>
+                </div>
+            </div>
+
+            <!-- Calendar Grid -->
+            <div id="calendarGrid" class="calendar-grid"></div>
+
+            <!-- Period Status Section -->
+            <div class="period-status">
+                <h2>Period Status</h2>
+                <div class="period-buttons">
+                    <button id="markStart" class="primary-btn">Mark Today as Period Start</button>
+                    <button id="markEnd" class="primary-btn">Mark Today as Period End</button>
+                </div>
+            </div>
+
+            <!-- Wellness Tips -->
+            <div class="wellness-tips">
+                <h2>Wellness Tips</h2>
+                <div class="tips-carousel">
+                    <div class="tip" data-tip-id="exercise">
+                        <h3>Exercise</h3>
+                        <p>Light exercise like yoga or walking can help reduce cramps and boost mood.</p>
+                        <div class="tip-toggle">↗</div>
+                    </div>
+                    <div class="tip" data-tip-id="nutrition">
+                        <h3>Nutrition</h3>
+                        <p>Stay hydrated and eat iron-rich foods to maintain energy levels.</p>
+                        <div class="tip-toggle">↗</div>
+                    </div>
+                    <div class="tip" data-tip-id="self-care">
+                        <h3>Self Care</h3>
+                        <p>Take warm baths and use a heating pad to ease discomfort.</p>
+                        <div class="tip-toggle">↗</div>
+                    </div>
+                    <div class="tip" data-tip-id="rest">
+                        <h3>Rest</h3>
+                        <p>Get adequate sleep and take breaks when needed.</p>
+                        <div class="tip-toggle">↗</div>
+                    </div>
+                </div>
+                <div class="carousel-nav">
+                    <button class="carousel-btn" id="prevTip" disabled>Previous</button>
+                    <button class="carousel-btn" id="nextTip">Next</button>
+                </div>
+            </div>
+
+            <!-- After wellness tips section and before footer -->
+            <div class="insights-layout">
+                <div class="main-content">
+                    <!-- Your existing content -->
+                </div>
+                <div class="side-panel">
+                    <div class="tarot-section">
+                        <h2>Daily Tarot & Insights</h2>
+                        <div class="tarot-container">
+                            <div class="tarot-content">
+                                <div class="tarot-header">
+                                    <span id="tarotSymbol" class="tarot-symbol"></span>
+                                    <h3 id="tarotTitle" class="tarot-title"></h3>
+                                </div>
+                                <div id="tarotValue" class="tarot-value"></div>
+                                <p id="tarotMeaning" class="tarot-meaning"></p>
+                                <div class="daily-suggestions">
+                                    <h4>Today's Suggestions</h4>
+                                    <ul id="suggestions"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer">
+                <div class="footer-content">
+                    <p>Designed with 💜 by Stella & Jade</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Include Toastify JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{% static 'calendar_app/js/script.js' %}"></script>
+    <script src="{% static 'calendar_app/js/ui.js' %}"></script>
+
+    <!-- Add Modal Templates -->
+    <div id="tipModal" class="tip-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+</body>
+</html>
